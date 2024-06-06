@@ -6,18 +6,21 @@
                                             ([Name]
                                             ,[Email]
                                             ,[Address]
-                                            ,[PhoneNumber])
+                                            ,[PhoneNumber]
+                                            ,[CustomerNo])
                                         VALUES
                                             (@Name
                                             ,@Email
                                             ,@Address
-                                            ,@PhoneNumber)";
+                                            ,@PhoneNumber
+                                            ,@CustomerNo)";
 
         public static string SelectAllQuery { get; } = @"SELECT [CustomerId]
                                                     ,[Name]
                                                     ,[Email]
                                                     ,[Address]
                                                     ,[PhoneNumber]
+                                                    ,[CustomerNo]
                                                 FROM [dbo].[Tbl_Customer]";
 
         public static string SelectQuery { get; } = @"SELECT [CustomerId]
@@ -25,6 +28,7 @@
                                                     ,[Email]
                                                     ,[Address]
                                                     ,[PhoneNumber]
+                                                    ,[CustomerNo]
                                                 FROM [dbo].[Tbl_Customer]
                                                 WHERE CustomerId = @CustomerId";
 
@@ -33,6 +37,7 @@
                                                     ,[Email] = @Email
                                                     ,[Address] = @Address
                                                     ,[PhoneNumber] = @PhoneNumber
+                                                    ,[CustomerNo] = @CustomerNo
                                                 WHERE CustomerId = @CustomerId";
 
         public static string DeleteQuery { get; } = @"DELETE FROM [dbo].[Tbl_Customer]

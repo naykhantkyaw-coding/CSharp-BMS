@@ -1,4 +1,4 @@
-﻿using BMS.Common;
+﻿using BMS.Infrastructure.DB;
 using BMS.Infrastructure.Entities;
 using BMS.Infrastructure.Queries;
 

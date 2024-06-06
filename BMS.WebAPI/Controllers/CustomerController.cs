@@ -1,5 +1,5 @@
 ﻿using BMS.Application.Services;
-using BMS.Infrastructure.Entities;
+using BMS.Application.DTOs.Customer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,25 +19,25 @@ namespace BMS.WebAPI.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            List<Customer> customers =  _customerService.GetCustomers();
+            List<CustomerDTO> customers =  _customerService.GetCustomers();
             return Ok(customers);
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            Customer customer = this.FindCustomer(id);
+            CustomerDTO customer = this.FindCustomer(id);
             if(customer == null) return NotFound("no customer found");
 
             return Ok(customer);
         }
 
         [HttpPost]
-        public IActionResult Create(Customer customer)
+        public IActionResult Create(CustomerRequestDTO customer)
         {
             try
             {
-                int result = _customerService.CreateCustomer(customer);
+                int result = _customerService.CreateCustomer(customer.ToDTO());
 
                 string msg = result > 0 ? "created success" : "failed";
                 return Ok(msg);
@@ -45,19 +45,22 @@ namespace BMS.WebAPI.Controllers
             catch (Exception e)
             {
 
-                return NotFound(e.Message);
+                return BadRequest(e.Message);
             }
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, Customer customer)
+        public IActionResult Update(int id, CustomerRequestDTO customer)
         {
             try
             {
-                Customer customer = this.FindCustomer(id);
-                if (customer == null) return NotFound("no customer found");
+                CustomerDTO cus = this.FindCustomer(id);
+                if (cus == null) return NotFound("no customer found");
 
-                int result = _customerService.UpdateCustomer(id, customer);
+                CustomerDTO dto = customer.ToDTO();
+                dto.CustomerNo = cus.CustomerNo;
+
+                int result = _customerService.UpdateCustomer(id, dto);
 
                 string msg = result > 0 ? "updated success" : "failed";
                 return Ok(msg);
@@ -65,14 +68,14 @@ namespace BMS.WebAPI.Controllers
             catch (Exception e)
             {
 
-                return NotFound(e.Message);
+                return BadRequest(e.Message);
             }
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            Customer customer = this.FindCustomer(id);
+            CustomerDTO  customer = this.FindCustomer(id);
             if (customer == null) return NotFound("no customer found");
 
             int result = _customerService.DeleteCustomer(id);
@@ -81,9 +84,9 @@ namespace BMS.WebAPI.Controllers
             return Ok(msg);
         }
 
-        private Customer FindCustomer(int id)
+        private CustomerDTO FindCustomer(int id)
         {
-            Customer customer = _customerService.GetCustomer(id);
+            CustomerDTO customer = _customerService.GetCustomer(id);
             return customer;
         }
     }

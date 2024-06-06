@@ -1,4 +1,6 @@
-﻿using BMS.Infrastructure.Entities;
+﻿using BMS.Application.DTOs.Customer;
+using BMS.Application.Mappings;
+using BMS.Infrastructure.Entities;
 using BMS.Infrastructure.Repositories;
 
 namespace BMS.Application.Services
@@ -12,24 +14,27 @@ namespace BMS.Application.Services
             _customerRepo = new CustomerRepository();  
         }
 
-        public int CreateCustomer(Customer customer)
+        public int CreateCustomer(CustomerDTO dto)
         {
-            return _customerRepo.CreateCustomer(customer);
+            return _customerRepo.CreateCustomer(dto.ToEntity());
         }
 
-        public List<Customer> GetCustomers()
+        public List<CustomerDTO> GetCustomers()
         {
-            return _customerRepo.GetCustomers();
+            List<Customer> list = _customerRepo.GetCustomers();
+            List<CustomerDTO> customerDTOs = list.Select(x => x.ToDTO()).ToList();
+            return customerDTOs;
         }
 
-        public Customer GetCustomer(int id)
+        public CustomerDTO GetCustomer(int id)
         {
-            return _customerRepo.GetCustomer(id);
+            Customer customer = _customerRepo.GetCustomer(id);
+            return customer.ToDTO();
         }
 
-        public int UpdateCustomer(int id, Customer customer)
+        public int UpdateCustomer(int id, CustomerDTO customer)
         {
-            return _customerRepo.UpdateCustomer(id, customer);
+            return _customerRepo.UpdateCustomer(id, customer.ToEntity());
         }
 
         public int DeleteCustomer(int id)
