@@ -1,37 +1,31 @@
 ﻿using BMS.Application.DTOs.Customer;
 using BMS.Infrastructure.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BMS.Application.Mappings
+namespace BMS.Application.Mappings;
+
+public static class CustomerMapper
 {
-    public static class CustomerMapper
+    public static CustomerDTO ToDTO(this Customer customer)
     {
-        public static CustomerDTO ToDTO(this Customer customer)
+        return new CustomerDTO
         {
-            return new CustomerDTO
-            {
-                Name = customer.Name,
-                Email = customer.Email,
-                Address = customer.Address,
-                PhoneNumber = customer.PhoneNumber,
-                CustomerNo = customer.CustomerNo,
-            };
-        }
+            Name = customer.Name,
+            Email = customer.Email,
+            Address = customer.Address,
+            PhoneNumber = customer.PhoneNumber,
+            CustomerNo = customer.CustomerNo,
+        };
+    }
 
-        public static Customer ToEntity(this CustomerDTO dto)
+    public static Customer ToEntity(this CustomerDTO dto)
+    {
+        return new Customer
         {
-            return new Customer
-            {
-                Name = dto.Name,
-                Email = dto.Email,
-                Address = dto.Address,
-                PhoneNumber = dto.PhoneNumber,
-                CustomerNo = dto.CustomerNo,
-            };
-        }
+            Name = dto.Name,
+            Email = dto.Email,
+            Address = dto.Address,
+            PhoneNumber = dto.PhoneNumber,
+            CustomerNo = dto.CustomerNo,
+        };
     }
 }

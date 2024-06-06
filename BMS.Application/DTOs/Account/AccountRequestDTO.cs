@@ -1,35 +1,61 @@
-﻿using System.Text.Json.Serialization;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
-namespace BMS.DTOs.Account
+namespace BMS.Application.DTOs.Account;
+
+public record AccountRequestDTO(string cuetomerNo, EnumAccountType accountType, decimal balance, string password)
 {
-    public class AccountRequestDTO
+    public bool IsStrongPassword()
     {
-        public string CustomerNo { get; set; }
+        Regex hasNumber = new Regex(@"[0-9]+");
+        Regex hasUpperChar = new Regex(@"[A-Z]+");
+        Regex hasMiniMaxChars = new Regex(@".{8,15}");
+        Regex hasLowerChar = new Regex(@"[a-z]+");
+        Regex hasSymbols = new Regex(@"[!@#$%^&*()_+=\[{\]};:<>|./?,-]");
 
-        [JsonConverter(typeof(JsonStringEnumConverter))] // to display enum as string in API
-        public EnumAccountType AccountType { get; set; }
-        public decimal Balance { get; set; }
-        public string Password { get; set; }
+        bool IsStrong = hasNumber.IsMatch(password) && hasUpperChar.IsMatch(password) && hasMiniMaxChars.IsMatch(password)
+                        && hasLowerChar.IsMatch(password) && hasSymbols.IsMatch(password);
 
-        public enum EnumAccountType
+        return IsStrong;
+    }
+
+    public AccountDTO ToDTO()
+    {
+        return new AccountDTO
         {
-            Saving,
-            Checking
-        }
+            CustomerNo = cuetomerNo,
+            Balance = balance,
+            Password = password,
+            AccountNo = GenerateCode(accTypeString),
+            AccountType = accTypeString,
 
-        public bool IsStrongPassword(string password)
-        {
-            Regex hasNumber = new Regex(@"[0-9]+");
-            Regex hasUpperChar = new Regex(@"[A-Z]+");
-            Regex hasMiniMaxChars = new Regex(@".{8,15}");
-            Regex hasLowerChar = new Regex(@"[a-z]+");
-            Regex hasSymbols = new Regex(@"[!@#$%^&*()_+=\[{\]};:<>|./?,-]");
+        };
+    }
 
-            bool IsStrong = hasNumber.IsMatch(password) && hasUpperChar.IsMatch(password) && hasMiniMaxChars.IsMatch(password)
-                            && hasLowerChar.IsMatch(password) && hasSymbols.IsMatch(password);
+    private string accTypeString => accountType.ToString();
 
-            return IsStrong;
-        }
+    private string GenerateCode(string accType)
+    {
+        string prefix = accType.Trim().Substring(0, 3).ToUpper();
+
+        Random rdn = new Random();
+        string code = prefix + rdn.Next(1000, 9999).ToString();
+
+        return code;
     }
 }
+
+public enum EnumAccountType
+{
+    Saving,
+    Checking
+}
+
+//public class AccountRequestDTO
+//{
+//    public string CustomerNo { get; set; }
+
+//    //[JsonConverter(typeof(JsonStringEnumConverter))] // to display enum as string in API
+//    public EnumAccountType AccountType { get; set; }
+//    public decimal Balance { get; set; }
+//    public string Password { get; set; }
+//}

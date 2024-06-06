@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace BMS.Infrastructure.Entities
 {
     [Table("Tbl_Account")]
-    internal class Account
+    public class Account
     {
         [Key]
         public int AccountId { get; set; }
