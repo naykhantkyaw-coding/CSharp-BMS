@@ -1,4 +1,6 @@
-﻿namespace BMS.Application.DTOs.Customer;
+﻿using BMS.Application.DTOs.Account;
+
+namespace BMS.Application.DTOs.Customer;
 
 public class CustomerDTO
 {
@@ -7,4 +9,10 @@ public class CustomerDTO
     public string Address { get; set; }
     public string PhoneNumber { get; set; }
     public string CustomerNo { get; set; }
+}
+
+public class CusWithAccsDTO
+{
+    public CustomerDTO CusDTO { get; set; }
+    public List<AccountDTO> AccsDTO { get; set; }
 }

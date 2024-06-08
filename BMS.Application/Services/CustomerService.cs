@@ -1,4 +1,5 @@
-﻿using BMS.Application.DTOs.Customer;
+﻿using BMS.Application.DTOs.Account;
+using BMS.Application.DTOs.Customer;
 using BMS.Application.Mappings;
 using BMS.Infrastructure.Entities;
 using BMS.Infrastructure.Repositories;
@@ -29,6 +30,8 @@ public class CustomerService
     public CustomerDTO GetCustomer(int id)
     {
         Customer customer = _customerRepo.GetCustomer(id);
+        if (customer == null) return null;
+
         return customer.ToDTO();
     }
 
@@ -40,5 +43,21 @@ public class CustomerService
     public int DeleteCustomer(int id)
     {
         return _customerRepo.DeleteCustomer(id);
+    }
+
+    public CusWithAccsDTO GetCustomerWithAccounts(string customerNo)
+    {
+        CustomerWithAccounts tmp = _customerRepo.GetCustomerWithAccount(customerNo);
+        if (tmp == null) return null;
+
+        CustomerDTO cus = tmp.Customer.ToDTO();
+        List<AccountDTO> accs = tmp.Accounts.Select(x => x.ToDTO()).ToList();
+
+        CusWithAccsDTO cusWithAccsDTO = new CusWithAccsDTO
+        {
+            CusDTO = cus,
+            AccsDTO = accs
+        };
+        return cusWithAccsDTO;
     }
 }

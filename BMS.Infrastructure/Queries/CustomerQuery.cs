@@ -42,4 +42,11 @@ internal class CustomerQuery
 
     public static string DeleteQuery { get; } = @"DELETE FROM [dbo].[Tbl_Customer]
                                                 WHERE CustomerId = @CustomerId";
+
+    public static string SelectQueryWithAccount { get; } = @"SELECT Customer.*, 
+                                                      Account.AccountNo, Account.AccountType, Account.Balance, Account.Password
+                                                      FROM [dbo].[Tbl_Customer] Customer
+                                                      Inner Join [dbo].[Tbl_Account] Account
+                                                      ON Customer.CustomerNo = Account.CustomerNo
+                                                      WHERE Customer.CustomerNo = @CustomerNo";
 }

@@ -44,4 +44,25 @@ public class CustomerRepository
         int result = _dapper.Execute<Customer>(CustomerQuery.DeleteQuery, new { CustomerId = id });
         return result;
     }
+
+    public CustomerWithAccounts GetCustomerWithAccount(string customerNo)
+    {
+        Customer customer = _dapper.QueryFirstOrDefault<Customer>
+            (
+                CustomerQuery.SelectQueryWithAccount, new { CustomerNo = customerNo}
+            );
+
+        List<Account> accounts = _dapper.Query<Account>
+            (
+                AccountQuery.SelectQueryWithCustomer, new { CustomerNo = customerNo }
+            );
+
+        CustomerWithAccounts response = new CustomerWithAccounts
+        {
+            Customer = customer,
+            Accounts = accounts
+        };
+
+        return response;
+    }
 }

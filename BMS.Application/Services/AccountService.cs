@@ -29,6 +29,8 @@ public class AccountService
     public AccountDTO GetAccount(int id)
     {
         Account account = _accountRepo.GetAccount(id);
+        if (account == null) return null;
+
         return account.ToDTO();
     }
 

@@ -14,3 +14,9 @@ public class Customer
     public string PhoneNumber { get; set; }
     public string CustomerNo { get; set; }
 }
+
+public class CustomerWithAccounts
+{
+    public Customer Customer { get; set; }
+    public List<Account> Accounts { get; set; }
+}

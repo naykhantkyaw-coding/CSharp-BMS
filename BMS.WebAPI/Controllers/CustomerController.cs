@@ -84,6 +84,15 @@ public class CustomerController : ControllerBase
         return Ok(msg);
     }
 
+    [HttpGet("WithAccs/{customerNo}")]
+    public IActionResult GetWithAccs(string customerNo)
+    {
+        CusWithAccsDTO customerWithAccs = _customerService.GetCustomerWithAccounts(customerNo);
+        if (customerWithAccs == null) return NotFound("no customer found");
+
+        return Ok(customerWithAccs);
+    }
+
     private CustomerDTO FindCustomer(int id)
     {
         CustomerDTO customer = _customerService.GetCustomer(id);
