@@ -1,20 +1,18 @@
-﻿
-using BMS.Application.DTOs.Account;
-using BMS.Application.Services;
+﻿using BMS.Application.DTOs.Account;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BMS.WebAPI.Controllers;
+namespace BMS.WebAPI.Features.Account;
 
 [Route("api/[controller]")]
 [ApiController]
 public class AccountController : ControllerBase
 {
-    private readonly AccountService _accountService;
+    private readonly BL_Account _accountService;
 
-    public AccountController()
+    public AccountController(BL_Account accountService)
     {
-        _accountService = new AccountService();
+        _accountService = accountService;
     }
 
     [HttpGet]
@@ -27,7 +25,7 @@ public class AccountController : ControllerBase
     [HttpGet("{id}")]
     public IActionResult Get(int id)
     {
-        AccountDTO account = this.FindAccount(id);
+        AccountDTO account = FindAccount(id);
         if (account == null) return NotFound("no ACC found");
 
         return Ok(account);
@@ -39,7 +37,7 @@ public class AccountController : ControllerBase
         try
         {
             if (!acc.IsStrongPassword()) return BadRequest("pls make strong password");
-            
+
             int result = _accountService.CreateAccount(acc.ToDTO());
 
             string msg = result > 0 ? "created success" : "failed";
@@ -57,7 +55,7 @@ public class AccountController : ControllerBase
     {
         try
         {
-            AccountDTO isExist = this.FindAccount(id);
+            AccountDTO isExist = FindAccount(id);
             if (isExist == null) return NotFound("no ACC found");
 
             AccountDTO dto = acc.ToDTO();
