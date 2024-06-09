@@ -1,14 +1,10 @@
 ﻿namespace BMS.Models.Entities.Account;
 
-[Table("Tbl_Account")]
-public class AccountEntity
+public class AccountDTO
 {
-    [Key]
-    public int AccountId { get; set; }
     public string AccountNo { get; set; }
     public string CustomerNo { get; set; }
     public string AccountType { get; set; }
     public decimal Balance { get; set; }
     public string Password { get; set; }
-
 }

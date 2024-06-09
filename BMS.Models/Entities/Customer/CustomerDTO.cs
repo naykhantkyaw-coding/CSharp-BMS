@@ -1,10 +1,7 @@
 ﻿namespace BMS.Models.Entities.Customer;
 
-[Table("Tbl_Customer")]
-public class CustomerEntity
+public class CustomerDTO
 {
-    [Key]
-    public int CustomerId { get; set; }
     public string Name { get; set; }
     public string Email { get; set; }
     public string Address { get; set; }
@@ -12,8 +9,8 @@ public class CustomerEntity
     public string CustomerNo { get; set; }
 }
 
-public class CustomerWithAccounts
+public class CusWithAccsDTO
 {
-    public CustomerEntity Customer { get; set; }
-    public List<AccountEntity> Accounts { get; set; }
+    public CustomerDTO CusDTO { get; set; }
+    public List<AccountDTO> AccsDTO { get; set; }
 }

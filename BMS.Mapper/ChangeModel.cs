@@ -1,14 +1,4 @@
-﻿using BMS.Models.Entities.Account;
-using BMS.Models.Entities.Customer;
-using BMS.Models.Features.Account;
-using BMS.Models.Features.Customer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BMS.Mapper;
+﻿namespace BMS.Mapper;
 public static class ChangeModel
 {
     public static AccountDTO Change(this AccountEntity account)

@@ -1,7 +1,4 @@
-﻿using System.Data.SqlClient;
-using System.Data.SqlTypes;
-
-namespace BMS.Shared;
+﻿namespace BMS.Shared;
 
 public class DBConnection
 {
