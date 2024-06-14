@@ -1,4 +1,4 @@
-﻿namespace BMS.Shared.Services;
+namespace BMS.Shared.Services;
 
 public class DapperService
 {
@@ -8,14 +8,12 @@ public class DapperService
     {
         _connectionString = connectionString;
     }
-
     public List<T> Query<T>(string query, object? parameter = null)
     {
         using IDbConnection db = new SqlConnection(_connectionString);
         List<T> list = db.Query<T>(query, parameter).ToList();
         return list;
     }
-
     public T QueryFirstOrDefault<T>(string query, object? parameter = null)
     {
         using IDbConnection db = new SqlConnection(_connectionString);
